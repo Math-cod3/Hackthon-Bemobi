@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import styled from 'styled-components';
-
+import LineChartComponent from '../components/Charts/LineChartComponent';
 const Container = styled.div`
   padding: 20px;
 `;
@@ -21,6 +21,13 @@ interface Metrics {
 const Dashboard: React.FC = () => {
   const [metrics, setMetrics] = useState<Metrics | null>(null);
 
+  const retentionData = [
+    { date: 'Jan', value: 85 },
+    { date: 'Feb', value: 87 },
+    { date: 'Mar', value: 90 },
+    
+  ];
+
   useEffect(() => {
     api.get('/metrics')
       .then(response => setMetrics(response.data))
@@ -34,7 +41,7 @@ const Dashboard: React.FC = () => {
   return (
     <Container>
       <Title>Dashboard de Métricas</Title>
-      <p>Taxa de Retenção: {metrics.retentionRate}%</p>
+      <LineChartComponent data={retentionData} dataKey="value" lineName="Taxa de Retenção" />
       <p>Redução de Churn: {metrics.churnReduction}%</p>
       <p>Engajamento com Assistente Virtual: {metrics.virtualAssistantEngagement}%</p>
       <p>Aumento nas Vendas Cruzadas: {metrics.crossSellingIncrease}%</p>

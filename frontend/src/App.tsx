@@ -1,9 +1,14 @@
 import React from 'react';
 import Routes from './routes';
+import Layout from './components/Layout';
+import { ToastContainer } from 'react-toastify';
 
 const App: React.FC = () => {
   return (
-    <Routes />
+    <Layout>
+      <Routes />
+      <ToastContainer/>
+    </Layout>
   );
 };
 
