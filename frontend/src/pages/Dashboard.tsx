@@ -1,27 +1,47 @@
-// frontend/src/pages/Dashboard.js
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
+import styled from 'styled-components';
 
-function Dashboard() {
-  const [metrics, setMetrics] = useState({});
+const Container = styled.div`
+  padding: 20px;
+`;
+
+const Title = styled.h1`
+  margin-bottom: 20px;
+`;
+
+interface Metrics {
+  retentionRate: number;
+  churnReduction: number;
+  virtualAssistantEngagement: number;
+  crossSellingIncrease: number;
+  npsScore: number;
+}
+
+const Dashboard: React.FC = () => {
+  const [metrics, setMetrics] = useState<Metrics | null>(null);
 
   useEffect(() => {
-    axios.get('/api/metrics')
+    api.get('/metrics')
       .then(response => setMetrics(response.data))
       .catch(error => console.error(error));
   }, []);
 
+  if (!metrics) {
+    return <div>Carregando...</div>;
+  }
+
   return (
-    <div>
-      <h1>Dashboard de Métricas</h1>
+    <Container>
+      <Title>Dashboard de Métricas</Title>
       <p>Taxa de Retenção: {metrics.retentionRate}%</p>
       <p>Redução de Churn: {metrics.churnReduction}%</p>
       <p>Engajamento com Assistente Virtual: {metrics.virtualAssistantEngagement}%</p>
       <p>Aumento nas Vendas Cruzadas: {metrics.crossSellingIncrease}%</p>
       <p>Satisfação do Cliente (NPS): {metrics.npsScore}</p>
-      {/* Outros componentes e visualizações */}
-    </div>
+      {/* Implementar gráficos e visualizações detalhadas */}
+    </Container>
   );
-}
+};
 
 export default Dashboard;
