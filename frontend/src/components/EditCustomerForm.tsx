@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import api from '../services/api';
-
-interface Customer {
-  id: number;
-  name: string;
-  email: string;
-}
+import { Customer } from '../interfaces/Customer';
 
 interface EditCustomerFormProps {
   customer: Customer;
@@ -16,10 +11,7 @@ const EditCustomerForm: React.FC<EditCustomerFormProps> = ({ customer, onUpdate 
   const [formData, setFormData] = useState<Customer>(customer);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prevState => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

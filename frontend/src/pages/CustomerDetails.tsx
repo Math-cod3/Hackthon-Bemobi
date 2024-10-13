@@ -3,19 +3,13 @@ import { useParams } from 'react-router-dom';
 import api from '../services/api';
 import CommunicationHistory from '../components/CommunicationHistory';
 import SendMessage from '../components/SendMessage';
+import EditCustomerForm from '../components/EditCustomerForm';
 
-interface Customer {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  paymentMethod: string;
-  preferredChannel: string;
-  status: string;
-}
+// Importe a interface Customer
+import { Customer } from '../interfaces/Customer';
 
 const CustomerDetails: React.FC = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [customer, setCustomer] = useState<Customer | null>(null);
 
   useEffect(() => {
@@ -23,6 +17,10 @@ const CustomerDetails: React.FC = () => {
       .then(response => setCustomer(response.data))
       .catch(error => console.error(error));
   }, [id]);
+
+  const handleUpdateCustomer = (updatedCustomer: Customer) => {
+    setCustomer(updatedCustomer); // Atualiza o estado com os dados atualizados
+  };
 
   if (!customer) {
     return <div>Carregando...</div>;
@@ -36,6 +34,11 @@ const CustomerDetails: React.FC = () => {
       <p>Método de Pagamento: {customer.paymentMethod}</p>
       <p>Canal Preferido: {customer.preferredChannel}</p>
       <p>Status: {customer.status}</p>
+
+      {/* Formulário para editar o cliente */}
+      <EditCustomerForm customer={customer} onUpdate={handleUpdateCustomer} />
+
+      {/* Outros componentes */}
       <SendMessage customerId={customer.id} />
       <CommunicationHistory customerId={customer.id} />
     </div>
