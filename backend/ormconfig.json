@@ -1,0 +1,15 @@
+
+{
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "seu_usuario",
+    "password": "sua_senha",
+    "database": "seu_banco_de_dados",
+    "synchronize": true,
+    "logging": false,
+    "entities": ["src/models/**/*.ts"],
+    "migrations": ["src/migrations/**/*.ts"],
+    "subscribers": ["src/subscribers/**/*.ts"]
+  }
+  
